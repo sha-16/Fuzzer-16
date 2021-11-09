@@ -1,17 +1,8 @@
 #!/usr/bin/python3
 
-import os, requests, sys, signal
-from threading import Thread
+import os, requests, sys
+from concurrent.futures import ProcessPoolExecutor 
 from pwn import *
-from tqdm.auto import tqdm
-
-
-# Controling the exiting of the program
-def ctrl_c(sig, frame):
-    print("\n[!] Exiting...")
-    os._exit(1)
-
-signal.signal(signal.SIGINT, ctrl_c)
 
 
 def banner():
@@ -28,17 +19,24 @@ def banner():
 
 requests_errors = 0
 valid_status_code = [200, 301, 302, 403, 500] 
+timeout = 10
 
-
-def testing_request(target):
+def checking_target(target):
     counter = True
     for i in range(2):
         try: 
-            req_test = requests.get(target, timeout=5)            
+            req_test = requests.get(target, timeout=timeout)            
         except: 
             counter = False
     return counter
 
+
+def checking_wordlist(file):
+    try: 
+        with open(file, 'r') as dictionary: 
+            return True
+    except: 
+        return False
 
 # Requests to the target
 def make_request(word):
@@ -46,7 +44,7 @@ def make_request(word):
     url = f'{sys.argv[2]}/{word}'
 
     try: 
-        req = requests.get(url, timeout=5)
+        req = requests.get(url, timeout=timeout)
     
         if req.status_code in valid_status_code: 
             print(f"\t-> {url} [Status: {req.status_code}]")
@@ -60,6 +58,26 @@ def make_request(word):
 
 
 # Main program
+def main(file, target):
+
+    # Open wordlist
+    with open(file, 'r') as wordlist: 
+                            
+        dictionary = []
+        for word in wordlist: 
+            dictionary.append(word.rstrip())
+
+        print(f"\n[*] Starting fuzz to {sys.argv[2]}\n")
+
+        print('\n[~] Results:\n')
+
+        # Starting process            
+        with ProcessPoolExecutor() as executor: 
+            results = executor.map(make_request, dictionary) 
+
+        print('\n[*] Finished...')
+
+
 if __name__ == '__main__': 
 
     banner()
@@ -67,47 +85,13 @@ if __name__ == '__main__':
     # Checking params
     if len(sys.argv) == 3:
 
-        # Getting params     
-        dic = sys.argv[1]
+        file = sys.argv[1]
         target = sys.argv[2]
 
-
-        if testing_request(target):
-            # Open wordlist
-            try:
-                with open(dic, 'r') as wordlist: 
-                                        
-                    print(f"\n[*] Starting fuzz to {sys.argv[2]}\n")
-
-                    thread_list = []
-                    fuzz_status = log.progress('Testing')
-
-                    print('\n[~] Results:\n')
-                    
-                    # Starting process            
-                    for word in wordlist: 
-
-                        fuzz_status.status(word.rstrip())
-
-                        thread = Thread(target=make_request, args=[word.rstrip()])
-                        thread.start()
-                        thread_list.append(thread)
-
-
-                    # Waiting for finish all of the process
-                    for _ in thread_list: 
-                        thread_list[-1].join()    
-
-
-                    print('\n[*] Finished...')
-
-            except:
-                print("[!] Error: there are problems openning your wordlist, please check if it exists...")
-                os._exit(2)
-
+        if checking_target(target) and checking_wordlist(file):
+            main(file, target)
         else:
-            print("[!] Error: check your target, there are problems requesting")
-            os._exit(2)
+            print('[!] Error: something is wrong with the dictionary or the target...!')
 
             
     else:
@@ -117,5 +101,5 @@ if __name__ == '__main__':
         print(f"\t-> {sys.argv[0]} dictionary.txt http://127.0.0.1:8080/")
         print(f"\t-> {sys.argv[0]} /usr/share/wordlist/rockyou.txt http://target-to-fuzz.com/")
         os.system('tput cnorm')
-        os._exit(0)
+        sys.exit(0)
         
