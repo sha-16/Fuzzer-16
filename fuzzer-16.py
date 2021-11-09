@@ -44,7 +44,7 @@ def main(file, target):
         print('\n[~] Results:\n')
             
         # Starting process            
-        with ProcessPoolExecutor() as executor: 
+        with ProcessPoolExecutor(max_workers=50) as executor: 
             results = executor.map(make_request, dictionary) 
 
         print('\n[*] Finished...')
