@@ -1,6 +1,6 @@
 # fuzzer-16
 
-Este es un fuzzer que nació con la idea de crear un programa en Python3 que enviará múltiples peticiones HTTP en paralelo. El proyecto lleva 4 horas de código, lo cual no es nada y en más, sólo lo he probado en local, así que aún hay mucho por hacer. Veamos qué tan lejos lo podemos llevar...
+Este es un fuzzer que nació con la idea de crear un programa en Python3 que enviará peticiones HTTP de una forma un tanto más rápida. El proyecto lleva 8 horas de código aprox, lo cual no es nada, así que aún hay mucho por hacer...
 
 ## Instalación y ejecución
 ```bash
