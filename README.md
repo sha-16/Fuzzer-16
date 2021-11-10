@@ -1,4 +1,4 @@
-# fuzzer-16
+# Fuzzer-16
 
 Este es un fuzzer que nació con la idea de crear un programa en Python3 que enviará peticiones HTTP de una forma un tanto más rápida. El proyecto lleva 8 horas de código aprox, lo cual no es nada, así que aún hay mucho por hacer...
 
