@@ -4,7 +4,8 @@ Este es un fuzzer que nació con la idea de crear un programa en Python3 que env
 
 ## Instalación y ejecución
 ```bash
-$ git clone https://github.com/sha-16/fuzzer-16
+$ git clone https://github.com/sha-16/fuzzer-16.git
+$ cd fuzzer-16/
 $ pip3 install <library> -> Ejecuta esto por cada librería que necesites (ya que no he añadido aún el fichero requirements.txt)
 $ chmod +x fuzzer-16.py
 $ ./fuzzer-16.py
