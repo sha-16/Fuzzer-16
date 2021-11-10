@@ -11,6 +11,23 @@ $ chmod +x fuzzer-16.py
 $ ./fuzzer-16.py
 ```
 
+## Problemas
+El script a la hora de terminar su ejecución deja muchos procesos corriendo por detras, los cuales 
+podemos mirar ejecutando, en bash, la sentencia: 
+
+```bash 
+$ ps -eo pid,cmd
+```
+
+Si te molesta demasiado el hecho de que queden corriendo, los puedes matar ejecutando: 
+
+```bash 
+$ for pid in $(ps -eo pid,cmd | grep "fuzzer-16" | grep -v "grep" | awk '{print $1}'); do kill -9 $pid; done
+```
+
+**Por ahora esta es la única forma que se me ocurre para solucionar este problema.** 
+
 **PD**: Perdón si tienes que instalar librerías de Python3 de forma manual, pronto añadiré el ```requeriments.txt```.
 
 **Nota**: si pruebas el script y encuentras fallos, me los podrías hacer saber por favor 🤞
+

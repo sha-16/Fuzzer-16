@@ -49,8 +49,8 @@ def main(file, target):
         with ProcessPoolExecutor(max_workers=50) as executor: 
             results = executor.map(make_request, dictionary) 
 
-        print('\n[*] Finished...')
-        sys.exit(0)
+    print('\n[*] Finished...')
+    sys.exit(0)
 
 #########################################################################################
 
