@@ -10,6 +10,6 @@ $ chmod +x fuzzer-16.py
 $ ./fuzzer-16.py
 ```
 
-* Perdón si tienes que instalar librerías de Python3 de forma manual, pronto añadiré el ```requeriments.txt```.
+**PD**: Perdón si tienes que instalar librerías de Python3 de forma manual, pronto añadiré el ```requeriments.txt```.
 
 **Nota**: si pruebas el script y encuentras fallos, me los podrías hacer saber por favor 🤞
