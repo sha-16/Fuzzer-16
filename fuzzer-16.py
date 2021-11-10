@@ -10,6 +10,7 @@ from banner_and_help import banner, helper
 
 # Global variables for requests
 valid_status_code = [200, 301, 302, 403, 500] 
+requests_errors = 0
 
 # Requests to the target
 def make_request(word):
@@ -23,9 +24,10 @@ def make_request(word):
             print(f"\t-> {url} [Status: {req.status_code}]")
 
     except: 
+        global requests_errors
         requests_errors += 1
         if requests_errors == 10:
-            print('\n[!] Error: there too many errors with requests, please check if your target is active!')
+            print('\n[!] Error: there are too many errors with requests, please check if your target is active!')
             os._exit(2)
 
 #########################################################################################
@@ -48,6 +50,7 @@ def main(file, target):
             results = executor.map(make_request, dictionary) 
 
         print('\n[*] Finished...')
+        sys.exit(0)
 
 #########################################################################################
 
