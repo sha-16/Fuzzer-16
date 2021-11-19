@@ -3,13 +3,35 @@
 import os, requests, sys
 from pwn import *
 from checkers import checking_target, checking_wordlist
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from banner_and_help import banner, helper
+import signal 
+
+
+
+#########################################################################################
+
+"""
+Aún estoy testeando el control de la sálida, debido a que se pierde el cursor...
+Para recuperarlo ejecuta: 
+
+    $ tput cnorm
+    
+Happy Hacking!
+"""
+
+def ctrl_c(sig, frame):
+    print('\n[!] Exiting...!')
+    os._exit(1)
+
+signal.signal(signal.SIGINT, ctrl_c)
+
 
 #########################################################################################
 
 # Global variables for requests
-valid_status_code = [200, 301, 302, 403, 500] 
+# valid_status_code = [200, 301, 302, 403, 500] 
+valid_status_code = [200, 301, 302, 500] 
 requests_errors = 0
 
 # Requests to the target
@@ -46,7 +68,7 @@ def main(file, target):
         print('\n[~] Results:\n')
             
         # Starting process            
-        with ProcessPoolExecutor(max_workers=50) as executor: 
+        with ThreadPoolExecutor(max_workers=50) as executor: 
             results = executor.map(make_request, dictionary) 
 
     print('\n[*] Finished...')
