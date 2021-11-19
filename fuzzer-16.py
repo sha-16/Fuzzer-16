@@ -18,13 +18,13 @@ Para recuperarlo ejecuta:
     $ tput cnorm
     
 Happy Hacking!
-"""
 
 def ctrl_c(sig, frame):
     print('\n[!] Exiting...!')
     os._exit(1)
 
 signal.signal(signal.SIGINT, ctrl_c)
+"""
 
 
 #########################################################################################
