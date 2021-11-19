@@ -12,19 +12,11 @@ $ ./fuzzer-16.py
 ```
 
 ## Problemas
-El script a la hora de terminar su ejecución deja muchos procesos corriendo por detras, los cuales 
-podemos mirar ejecutando, en bash, la sentencia: 
-
+A la hora de ejecutar CTRL+C para detener su ejecución y es un problema que aún no logro solucionar...
+Para recuperar el cursor puedes ejecutar: 
 ```bash 
-$ ps -eo pid,cmd
+$ tput cnorm
 ```
-
-Si te molesta demasiado el hecho de que queden corriendo, los puedes matar ejecutando: 
-
-```bash 
-$ for pid in $(ps -eo pid,cmd | grep "fuzzer-16" | grep -v "grep" | awk '{print $1}'); do kill -9 $pid; done
-```
-
 **Por ahora esta es la única forma que se me ocurre para solucionar este problema.** 
 
 **PD**: Perdón si tienes que instalar librerías de Python3 de forma manual, pronto añadiré el ```requeriments.txt```.

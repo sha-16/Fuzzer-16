@@ -30,8 +30,9 @@ signal.signal(signal.SIGINT, ctrl_c)
 #########################################################################################
 
 # Global variables for requests
-# valid_status_code = [200, 301, 302, 403, 500] 
-valid_status_code = [200, 301, 302, 500] 
+# valid_status_code = [200, 301, 302, 500] 
+
+valid_status_code = [200, 301, 302, 403, 500] 
 requests_errors = 0
 
 # Requests to the target
